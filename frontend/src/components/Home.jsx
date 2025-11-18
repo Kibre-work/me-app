@@ -1,12 +1,10 @@
 import React from "react";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaTelegramPlane } from "react-icons/fa";
 
 function Home() {
-  const handleWhatsApp = () => {
-    // Replace with your actual WhatsApp number (include country code without + or spaces)
-    const phoneNumber = "971525465332"; // Example: 971501234567
-    const message = "Hello! I'd like to connect with you.";
-    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
+  const handleTelegram = () => {
+    const username = "@love_you_husband"; // Replace with your Telegram username
+    window.open(`https://t.me/${username}`, "_blank");
   };
 
   return (
@@ -40,10 +38,10 @@ function Home() {
           </p>
 
           <button 
-            onClick={handleWhatsApp}
-            className="flex items-center gap-2 px-10 py-3 bg-orange-400 text-white rounded-full hover:bg-orange-500 transition duration-300 ease-in-out w-fit mt-4"
+            onClick={handleTelegram}
+            className="flex items-center gap-2 px-10 py-3 bg-orange-400 text-white rounded-full hover:bg-blue-500 transition duration-300 ease-in-out w-fit mt-4"
           >
-            <FaWhatsapp className="text-2xl" />
+            <FaTelegramPlane className="text-2xl" />
             Say Hello!
           </button>
         </div>
