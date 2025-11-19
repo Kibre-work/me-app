@@ -1,16 +1,22 @@
+# backend/contact/views.py
 from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ContactMessageSerializer
 from django.conf import settings
+import logging
+
+# Optional: configure logger for email errors
+logger = logging.getLogger(__name__)
 
 @api_view(["POST"])
 def submit_contact(request):
     serializer = ContactMessageSerializer(data=request.data)
     
     if serializer.is_valid():
-        instance = serializer.save()  # Save message to DB
+        # Save message to DB
+        instance = serializer.save()
 
         # Prepare email
         subject = f"New Contact Message from {instance.name}"
@@ -32,8 +38,9 @@ Message:
                 fail_silently=False
             )
         except Exception as e:
-            # Log the email error but still return success to frontend
-            print("Email failed:", e)
+            # Log the email error
+            logger.error(f"Email failed to send: {e}")
+            print(f"Email failed: {e}")
 
         return Response(
             {"message": "Message received and emailed!"},
