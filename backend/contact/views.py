@@ -3,14 +3,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ContactMessageSerializer
+from django.conf import settings
 
 @api_view(["POST"])
 def submit_contact(request):
     serializer = ContactMessageSerializer(data=request.data)
+    
     if serializer.is_valid():
         instance = serializer.save()  # Save message to DB
 
-        # Send email to you
+        # Prepare email
         subject = f"New Contact Message from {instance.name}"
         message_body = f"""
 Name: {instance.name}
@@ -25,14 +27,19 @@ Message:
             send_mail(
                 subject=subject,
                 message=message_body,
-                from_email=None,  # uses DEFAULT_FROM_EMAIL
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=recipient_list,
                 fail_silently=False
             )
         except Exception as e:
+            # Log the email error but still return success to frontend
             print("Email failed:", e)
 
-        return Response({"message": "Message received and emailed!"}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"message": "Message received and emailed!"},
+            status=status.HTTP_201_CREATED
+        )
 
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    # Flatten serializer errors for frontend
+    errors = {k: " ".join(v) for k, v in serializer.errors.items()}
+    return Response(errors, status=status.HTTP_400_BAD_REQUEST)
