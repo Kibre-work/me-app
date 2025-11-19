@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-//import { motion } from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import axios from "axios";
 
 export default function Contact() {
