@@ -47,7 +47,12 @@ export default function Contact() {
 
     try {
       setStatus("sending");
-      const res = await axios.post("http://localhost:8000/api/contact/submit/", formData);
+
+      // Use environment variable for API URL
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000/api/";
+
+      const res = await axios.post(`${apiUrl}contact/submit/`, formData);
+
       setStatus("sent");
       setFormData({ name: "", email: "", message: "" });
       setErrors({});
@@ -178,3 +183,4 @@ export default function Contact() {
     </section>
   );
 }
+
