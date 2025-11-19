@@ -3,7 +3,7 @@ import { FaTelegramPlane } from "react-icons/fa";
 
 function Home() {
   const handleTelegram = () => {
-    const username = "@love_you_husband"; // Replace with your Telegram username
+    const username = "love_you_husband"; // Replace with your Telegram username
     window.open(`https://t.me/${username}`, "_blank");
   };
 
