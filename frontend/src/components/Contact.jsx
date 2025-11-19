@@ -13,32 +13,42 @@ export default function Contact() {
     setErrors({ ...errors, [name]: "" });
   };
 
+  // Client-side validators
   const validateName = (name) => {
     const regex = /^[a-zA-Z\s]{2,50}$/;
-    if (!name.trim()) return "Name is required";
+    if (!name) return "Name is required";
     if (!regex.test(name)) return "Name should only contain letters and spaces (2-50 chars)";
     return "";
   };
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) return "Email is required";
+    if (!email) return "Email is required";
     if (!regex.test(email)) return "Invalid email address";
     return "";
   };
 
   const validateMessage = (message) => {
-    if (!message.trim()) return "Message is required";
-    if (message.trim().length < 10) return "Message must be at least 10 chars";
+    if (!message) return "Message is required";
+    if (message.length < 10) return "Message must be at least 10 chars";
     if (message.length > 500) return "Message cannot exceed 500 chars";
     return "";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const nameError = validateName(formData.name);
-    const emailError = validateEmail(formData.email);
-    const messageError = validateMessage(formData.message);
+
+    // Trim inputs before sending
+    const trimmedData = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      message: formData.message.trim(),
+    };
+
+    // Client-side validation
+    const nameError = validateName(trimmedData.name);
+    const emailError = validateEmail(trimmedData.email);
+    const messageError = validateMessage(trimmedData.message);
 
     if (nameError || emailError || messageError) {
       setErrors({ name: nameError, email: emailError, message: messageError });
@@ -48,10 +58,9 @@ export default function Contact() {
     try {
       setStatus("sending");
 
-      // Use Vite environment variable for API URL
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api/";
 
-      const res = await axios.post(`${apiUrl}contact/submit/`, formData);
+      const res = await axios.post(`${apiUrl}contact/submit/`, trimmedData);
 
       setStatus("sent");
       setFormData({ name: "", email: "", message: "" });
@@ -59,8 +68,17 @@ export default function Contact() {
       console.log(res.data);
     } catch (err) {
       setStatus("error");
-      if (err.response?.data) setErrors(err.response.data);
-      else alert("Something went wrong. Try again.");
+
+      // Display backend errors under the corresponding field
+      if (err.response?.data) {
+        const serverErrors = {};
+        for (const key in err.response.data) {
+          serverErrors[key] = err.response.data[key].join(" ");
+        }
+        setErrors(serverErrors);
+      } else {
+        alert("Something went wrong. Try again.");
+      }
     }
   };
 
