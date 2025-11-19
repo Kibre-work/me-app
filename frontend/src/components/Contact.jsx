@@ -48,8 +48,8 @@ export default function Contact() {
     try {
       setStatus("sending");
 
-      // Use environment variable for API URL
-      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000/api/";
+      // Use Vite environment variable for API URL
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api/";
 
       const res = await axios.post(`${apiUrl}contact/submit/`, formData);
 
@@ -183,4 +183,3 @@ export default function Contact() {
     </section>
   );
 }
-
