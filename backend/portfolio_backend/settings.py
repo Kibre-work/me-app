@@ -134,3 +134,4 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@example.com')
 # Default primary key field type
 # ---------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+RESEND_API_KEY = config('RESEND_API_KEY', default='')

@@ -1,11 +1,11 @@
 # backend/contact/views.py
-from django.core.mail import send_mail
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ContactMessageSerializer
 from django.conf import settings
 import logging
+import resend
 
 # Optional: configure logger for email errors
 logger = logging.getLogger(__name__)
@@ -18,25 +18,26 @@ def submit_contact(request):
         # Save message to DB
         instance = serializer.save()
 
-        # Prepare email
-        subject = f"New Contact Message from {instance.name}"
-        message_body = f"""
-Name: {instance.name}
-Email: {instance.email}
-
-Message:
-{instance.message}
-"""
-        recipient_list = ["senaitagumasie1@gmail.com"]  # Your email
-
+        # Send email using Resend
         try:
-            send_mail(
-                subject=subject,
-                message=message_body,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=recipient_list,
-                fail_silently=False
-            )
+            resend.api_key = settings.RESEND_API_KEY
+            
+            params = {
+                "from": "onboarding@resend.dev",  # Use this for testing, or your verified domain
+                "to": ["senaitagumasie1@gmail.com"],
+                "subject": f"New Contact Message from {instance.name}",
+                "html": f"""
+                    <h2>New Contact Form Submission</h2>
+                    <p><strong>Name:</strong> {instance.name}</p>
+                    <p><strong>Email:</strong> {instance.email}</p>
+                    <p><strong>Message:</strong></p>
+                    <p>{instance.message}</p>
+                """
+            }
+            
+            email = resend.Emails.send(params)
+            logger.info(f"Email sent successfully: {email}")
+            
         except Exception as e:
             # Log the email error
             logger.error(f"Email failed to send: {e}")
