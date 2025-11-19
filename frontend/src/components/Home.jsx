@@ -18,7 +18,7 @@ function Home() {
         <img
           src="/images/me.jpg"
           alt="me"
-          className="h-[550px] w-full object-cover object-top rounded-2xl shadow-2xl shadow-black/40 hover:shadow-orange-500/40 hover:scale-[1.02] transition-all duration-500 border-2 border-orange-400/50 mt-20 brightness-90"
+          className="h-[550px] w-90 object-cover object-top rounded-2xl shadow-2xl shadow-black/40 hover:shadow-orange-500/40 hover:scale-[1.02] transition-all duration-500 border-2 border-orange-400/50 mt-20 brightness-90"
         />
 
         {/* Text */}

@@ -17,7 +17,7 @@ function App() {
           path="/"
           element={
             <div
-              className="w-full bg-contain bg-no-repeat"
+              className="w-full bg-contain bg-repeat-x"
               style={{ 
                 backgroundImage: "url('/images/back.jpg')",
                 backgroundSize: "2000px",
