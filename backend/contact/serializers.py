@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import ContactMessage
 from django.core.exceptions import ValidationError
+
 class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage
@@ -11,7 +12,6 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         """
         Ensure model-level validation (full_clean) runs so model.clean() and validators apply.
         """
-        # Create a non-saved model instance and run full_clean()
         instance = ContactMessage(**data)
         try:
             instance.full_clean()
