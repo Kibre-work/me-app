@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const scrollToSection = (sectionId) => {
@@ -37,15 +38,15 @@ function Footer() {
             {/* Email */}
             <div className="flex items-center gap-2 mb-4">
               <span className="text-orange-400 text-xl">📧</span>
-              <a href="mailto:senait@codewithsun.com" className="text-gray-400 hover:text-orange-400 transition-colors">
-                senait@codewithsun.com
+              <a href="mailto:senaitagumasie1@gmail.com" className="text-gray-400 hover:text-orange-400 transition-colors">
+                senaitagumasie1@gmail.com
               </a>
             </div>
 
             {/* LinkedIn Link */}
             <div className="flex gap-3">
-              
-            <a    href="https://www.linkedin.com/in/senait-agumasie-22065b19b/"
+              <a 
+                href="https://www.linkedin.com/in/senait-agumasie-22065b19b/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-600 rounded-lg flex items-center justify-center text-white text-xl transition-all hover:scale-110 hover:shadow-lg"
@@ -77,15 +78,15 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm text-center md:text-left">
-            © 2024 <span className="text-white">Code</span><span className="text-orange-400">With</span><span className="text-white">Sun</span>. Made with 💜 by Senait Agumasie
+            © 2024 <span className="text-white">Senait</span> <span className="text-orange-400">Agumasie</span>. Made with 💜
           </p>
           <div className="flex gap-6 text-sm">
-            <a href="/privacy" className="text-gray-400 hover:text-orange-400 transition-colors">
+            <Link to="/privacy" className="text-gray-400 hover:text-orange-400 transition-colors">
               Privacy Policy
-            </a>
-            <a href="/terms" className="text-gray-400 hover:text-orange-400 transition-colors">
+            </Link>
+            <Link to="/terms" className="text-gray-400 hover:text-orange-400 transition-colors">
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>
