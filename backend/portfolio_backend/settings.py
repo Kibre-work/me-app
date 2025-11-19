@@ -56,11 +56,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
-
-# Database (PostgreSQL on Render)
+# Database (PostgreSQL on Render or SQLite fallback)
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL')  # Render provides DATABASE_URL automatically
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
     )
 }
 
