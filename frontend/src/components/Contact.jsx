@@ -58,7 +58,7 @@ export default function Contact() {
     try {
       setStatus("sending");
 
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api/";
+      const apiUrl = import.meta.env.VITE_API_URL;
 
       const res = await axios.post(`${apiUrl}contact/submit/`, trimmedData);
 
